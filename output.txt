@@ -1,0 +1,4 @@
+http://ya.ru Яндекс
+http://ya.ru/maps Яндекс карты
+http://www.google.ru/search?hl=ru&client=firefox&hs=mpE&rls=en Поиск
+http://podrobnee.ru
