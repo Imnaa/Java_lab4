@@ -20,16 +20,22 @@ public class Main {
         // Инизиализует сканнер для консоли
         Scanner scanner = new Scanner(System.in);
         // Анализ ссылок в теге <a>
-        Pattern patternUrlTagA = Pattern.compile("<a(.*?)href=([\'\"])(.*?)([\'\"])(.*?)>(.*?)</a>");
+        String stringPatternUrl = "((?:https?|file|ftp)://(?:[\\da-z][\\da-z-]*[\\da-z]\\.){1,}[\\da-zа-я]{2,}/?.*?)";
+        Pattern patternUrlTagA = Pattern.compile(
+                "<a\\s.*href=[\'\"]" + stringPatternUrl + "[\'\"].*?>(.*)</a>"
+        );
         Matcher matcher = patternUrlTagA.matcher(content);
         while (matcher.find()) {
-            resualt += matcher.group(3) + " " + matcher.group(6) + "\n";
+            resualt += matcher.group(1) + " " + matcher.group(2) + "\n";
         }
         // Анализ ссылок отличных от тега <a>
-        patternUrlTagA = Pattern.compile("<[^a]*(.*?)>(.*?)[\\s]?(http://[a-z0-9/?=-_&.]+)[\\s]?(.*?)</[^a]*>");
+        patternUrlTagA = Pattern.compile(
+                "<[^a][a-z]*\\s?.*>.*" + stringPatternUrl + ".*</[^a][a-z]*>",
+                Pattern.DOTALL | Pattern.CASE_INSENSITIVE
+        );
         matcher = patternUrlTagA.matcher(content);
         while (matcher.find()) {
-            resualt += matcher.group(3) + "\n";
+            resualt += matcher.group(1) + "\n";
         }
         // Вывод на экран результат
         System.out.println(resualt);
